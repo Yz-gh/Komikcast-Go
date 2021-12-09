@@ -1,0 +1,2 @@
+# Komikcast-Go
+Komikcast API
