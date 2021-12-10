@@ -9,12 +9,6 @@ import (
     "github.com/valyala/fasthttp"
 )
 
-type Chapter struct {
-	Ch          string `json:"ch"`
-	TimeRelease string `json:"time_release"`
-	LinkID      string `json:"linkId"`
-}
-
 type ComicInfo struct {
 	Linkid       string   `json:"linkid"`
 	Title        string   `json:"title"`
@@ -55,7 +49,24 @@ type ChapterByPage struct {
 	Data        []*Chapter `json:"data"`
 }
 
-var host = ""
+type Chapter struct {
+	Title  string `json:"title"`
+	Image  string `json:"image"`
+	Image2 string `json:"image2"`
+	IsHot  string `json:"isHot"`
+	Link   string `json:"link"`
+	LinkID string `json:"linkId"`
+	Ch     string `json:"ch"`
+	Chapter    string `json:"chapter"`
+	TimeRelease string `json:"time_release"`
+	ChID   string `json:"ch_id"`
+	ChTime string `json:"ch_time"`
+	IsCompleted string `json:"isCompleted"`
+	Type string `json:"type"`
+	Rating string `json:"rating"`
+}
+
+var host = "https://apk.nijisan.my.id"
 type RequestDetail struct {
 	Method   string   `json:"method"`
 	Endpoint string   `json:"endpoint"`
@@ -157,5 +168,66 @@ func GetChapterByPage(id, page, limit string) (c *ChapterByPage, err error){
     respBody := request(url, rd.Method, nil)
     c = &ChapterByPage{}
     err = json.Unmarshal([]byte(respBody), c)
+    return
+}
+
+func GenreList() (gl []string, err error){
+    rd := path["genre"]
+    url := host+rd.Endpoint
+    respBody := request(url, rd.Method, nil)
+    r := make(map[string][]string)
+    err = json.Unmarshal([]byte(respBody), &r)
+    gl = r["genre"]
+    return
+}
+
+func Home() (lc map[string][]*Chapter, err error){
+    rd := path["home"]
+    url := host+rd.Endpoint
+    respBody := request(url, rd.Method, nil)
+    err = json.Unmarshal([]byte(respBody), &lc)
+    return
+}
+
+func GetLatestUpdate(page string) (lc []*Chapter, err error){
+    rd := path["latest"]
+    url := fmt.Sprintf(host+rd.Endpoint, "1", page)
+    respBody := request(url, rd.Method, nil)
+    r := make(map[string]interface{})
+    err = json.Unmarshal([]byte(respBody), &r)
+    ld := r["data"].([]interface{})
+    for _, data := range ld{ 
+        ta := &Chapter{}
+        dataByte, _ := json.Marshal(data.(map[string]interface{}))
+        json.Unmarshal(dataByte, ta)
+        lc = append(lc, ta)
+    }
+    return
+}
+
+func GetRecommendedComic(tipe, limit string) (lc []*Chapter, err error){
+    rd := path["recommended"]
+    url := fmt.Sprintf(host+rd.Endpoint, tipe, limit)
+    respBody := request(url, rd.Method, nil)
+    err = json.Unmarshal([]byte(respBody), &lc)
+    return
+}
+
+func SearchComic(keyword string) (lc []*Chapter, err error){
+    rd := path["search"]
+    url := fmt.Sprintf(host+rd.Endpoint, keyword)
+    respBody := request(url, rd.Method, nil)
+    /*r := make(map[string][]*Chapter)
+    err = json.Unmarshal([]byte(respBody), &r)
+    lc = r["page"]*/
+    r := make(map[string]interface{})
+    err = json.Unmarshal([]byte(respBody), &r)
+    lp := r["page"].([]interface{})
+    for _, page := range lp{ 
+        ta := &Chapter{}
+        pageByte, _ := json.Marshal(page.(map[string]interface{}))
+        json.Unmarshal(pageByte, ta)
+        lc = append(lc, ta)
+    }
     return
 }
