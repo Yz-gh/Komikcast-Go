@@ -66,6 +66,13 @@ type Chapter struct {
 	Rating string `json:"rating"`
 }
 
+type ResultFilter struct {
+	Genre        []string `json:"genre"`
+	Status       string   `json:"status"`
+	Order        string   `json:"order"`
+	FilterResult []*Chapter `json:"filter_result"`
+}
+
 var host = "https://apk.nijisan.my.id"
 type RequestDetail struct {
 	Method   string   `json:"method"`
@@ -81,7 +88,7 @@ var path = map[string]*RequestDetail{
         Path: []string{"id"}},
     "filter": &RequestDetail{
         Method: "POST",
-        Endpoint: "/premium/komik/filter"},
+        Endpoint: "/komik/filter"},
     "chapterList": &RequestDetail{
         Method: "GET",
         Endpoint: "/komik/info/%s/ch",
@@ -229,5 +236,31 @@ func SearchComic(keyword string) (lc []*Chapter, err error){
         json.Unmarshal(pageByte, ta)
         lc = append(lc, ta)
     }
+    return
+}
+
+/* Filter Comic Args Exmp
+  sort = title, titlereverse, latest, popular
+  status = Ongoing, Completed, ""(blank) if want all
+  genre = see GenreList()
+*/
+func FilterComic(page, status, order string, genres []string) (rf *ResultFilter, err error){
+    rd := path["filter"]
+    url := fmt.Sprintf(host+rd.Endpoint)
+    g := ""
+    if len(genres) != 0{
+        gs, _ := json.Marshal(genres)
+        g = `"genre": `+string(gs)+`,`
+    }
+    jsonToSend := fmt.Sprintf(`{
+      %s
+      "newpage": 1,
+      "page": %s,
+      "status": "%s",
+      "order": "%s"
+    }`, g, page, status, order)
+    respBody := request(url, rd.Method, []byte(jsonToSend))
+    rf = &ResultFilter{}
+    err = json.Unmarshal([]byte(respBody), rf)
     return
 }
