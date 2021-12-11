@@ -25,4 +25,9 @@ func main(){
     fmt.Println("Chapter id to read:", tr)
     rc, _ := komikcast.ReadComic(tr)
     for _, img := range rc.Images{ fmt.Println(img) }
+    fmt.Println()
+
+    fmt.Println("=====[ Filter Comic ]=====")
+    fc, _ := komikcast.FilterComic("1", "", "latest", []string{"Super Power", "Reincarnation"})
+    for _, f := range fc.FilterResult{ fmt.Printf("%+v\n", f) }
 }
