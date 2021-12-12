@@ -10,75 +10,75 @@ import (
 )
 
 type ComicInfo struct {
-	Linkid       string   `json:"linkid"`
-	Title        string   `json:"title"`
-	TitleOther   string   `json:"title_other"`
-	Author       string   `json:"author"`
-	Image        string   `json:"image"`
-	Image2       string   `json:"image2"`
-	Rating       string   `json:"rating"`
-	Sinopsis     string   `json:"sinopsis"`
-	Type         string   `json:"type"`
-	Status       string   `json:"status"`
-	Released     string   `json:"released"`
-	TotalChapter string   `json:"total_chapter"`
-	UpdatedOn    string   `json:"updated_on"`
-	Genres       []string `json:"genres"`
-	ListChapter  []*Chapter `json:"list_chapter"`
+	Linkid       string   `json:"linkid,omitempty"`
+	Title        string   `json:"title,omitempty"`
+	TitleOther   string   `json:"title_other,omitempty"`
+	Author       string   `json:"author,omitempty"`
+	Image        string   `json:"image,omitempty"`
+	Image2       string   `json:"image2,omitempty"`
+	Rating       string   `json:"rating,omitempty"`
+	Sinopsis     string   `json:"sinopsis,omitempty"`
+	Type         string   `json:"type,omitempty"`
+	Status       string   `json:"status,omitempty"`
+	Released     string   `json:"released,omitempty"`
+	TotalChapter string   `json:"total_chapter,omitempty"`
+	UpdatedOn    string   `json:"updated_on,omitempty"`
+	Genres       []string `json:"genres,omitempty"`
+	ListChapter  []*Chapter `json:"list_chapter,omitempty"`
 }
 
 type ChapterDetail struct {
-	Title       string `json:"title"`
-	Ch          string `json:"ch"`
-	ComicTitle  string `json:"comic_title"`
-	PrevCh      string `json:"prev_ch"`
-	NextCh      string `json:"next_ch"`
-	PrevLinkID  string `json:"prev_link_id"`
-	NextLinkID  string `json:"next_link_id"`
-	ListChapter []*Chapter `json:"list_chapter"`
-	Images []string `json:"images"`
+	Title       string `json:"title,omitempty"`
+	Ch          string `json:"ch,omitempty"`
+	ComicTitle  string `json:"comic_title,omitempty"`
+	PrevCh      string `json:"prev_ch,omitempty"`
+	NextCh      string `json:"next_ch,omitempty"`
+	PrevLinkID  string `json:"prev_link_id,omitempty"`
+	NextLinkID  string `json:"next_link_id,omitempty"`
+	ListChapter []*Chapter `json:"list_chapter,omitempty"`
+	Images []string `json:"images,omitempty"`
 }
 
 type ChapterByPage struct {
-	CurrentPage int  `json:"currentPage"`
-	PerPage     int  `json:"perPage"`
-	Total       int  `json:"total"`
-	HasNextPage bool `json:"hasNextPage"`
-	HasPrevPage bool `json:"hasPrevPage"`
-	TotalPages  int  `json:"totalPages"`
-	Data        []*Chapter `json:"data"`
+	CurrentPage int  `json:"currentPage,omitempty"`
+	PerPage     int  `json:"perPage,omitempty"`
+	Total       int  `json:"total,omitempty"`
+	HasNextPage bool `json:"hasNextPage,omitempty"`
+	HasPrevPage bool `json:"hasPrevPage,omitempty"`
+	TotalPages  int  `json:"totalPages,omitempty"`
+	Data        []*Chapter `json:"data,omitempty"`
 }
 
 type Chapter struct {
-	Title  string `json:"title"`
-	Image  string `json:"image"`
-	Image2 string `json:"image2"`
-	IsHot  string `json:"isHot"`
-	Link   string `json:"link"`
-	LinkID string `json:"linkId"`
-	Ch     string `json:"ch"`
-	Chapter    string `json:"chapter"`
-	TimeRelease string `json:"time_release"`
-	ChID   string `json:"ch_id"`
-	ChTime string `json:"ch_time"`
-	IsCompleted string `json:"isCompleted"`
-	Type string `json:"type"`
-	Rating string `json:"rating"`
+	Title  string `json:"title,omitempty"`
+	Image  string `json:"image,omitempty"`
+	Image2 string `json:"image2,omitempty"`
+	IsHot  string `json:"isHot,omitempty"`
+	Link   string `json:"link,omitempty"`
+	LinkID string `json:"linkId,omitempty"`
+	Ch     string `json:"ch,omitempty"`
+	Chapter    string `json:"chapter,omitempty"`
+	TimeRelease string `json:"time_release,omitempty"`
+	ChID   string `json:"ch_id,omitempty"`
+	ChTime string `json:"ch_time,omitempty"`
+	IsCompleted string `json:"isCompleted,omitempty"`
+	Type string `json:"type,omitempty"`
+	Rating string `json:"rating,omitempty"`
 }
 
 type ResultFilter struct {
-	Genre        []string `json:"genre"`
-	Status       string   `json:"status"`
-	Order        string   `json:"order"`
-	FilterResult []*Chapter `json:"filter_result"`
+	Genre        []string `json:"genre,omitempty"`
+	Status       string   `json:"status,omitempty"`
+	Order        string   `json:"order,omitempty"`
+	FilterResult []*Chapter `json:"filter_result,omitempty"`
 }
 
 var host = "https://apk.nijisan.my.id"
 type RequestDetail struct {
-	Method   string   `json:"method"`
-	Endpoint string   `json:"endpoint"`
-	Path     []string `json:"path"`
-	Query    []string `json:"query"`
+	Method   string
+	Endpoint string
+	Path     []string
+	Query    []string
 }
     
 var path = map[string]*RequestDetail{
