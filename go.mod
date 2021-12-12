@@ -1,4 +1,4 @@
-module komikcast
+module github.com/Yz-gh/Komikcast-Go
 
 go 1.17
 
