@@ -96,7 +96,7 @@ var path = map[string]*RequestDetail{
         Query: []string{"page", "limit"}},
     "genre": &RequestDetail{
         Method: "GET",
-        Endpoint: "/filter/komik/genre"},
+        Endpoint: "/komik/genre"},
     /*"randomGenre": &RequestDetail{
         Method: "GET",
         Endpoint: "/filter/komik/genre/random"},*/
@@ -109,7 +109,7 @@ var path = map[string]*RequestDetail{
         Path: []string{"newpage", "page"}},
     "recommended": &RequestDetail{
         Method: "GET",
-        Endpoint: "/filter/komik/rekomendasi/%s/%s",
+        Endpoint: "/komik/rekomendasi/%s/%s",
         Path: []string{"type", "limit"}},
     "search": &RequestDetail{
         Method: "GET",
