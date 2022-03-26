@@ -73,6 +73,20 @@ type ResultFilter struct {
 	FilterResult []*Chapter `json:"filter_result,omitempty"`
 }
 
+type SearchResult struct {
+	Keyword string `json:"keyword"`
+	Page    []struct {
+		Title       string `json:"title"`
+		Chapter     string `json:"chapter"`
+		Rating      string `json:"rating"`
+		Image       string `json:"image"`
+		Image2      string `json:"image2"`
+		Type        string `json:"type"`
+		IsCompleted string `json:"isCompleted"`
+		LinkID      string `json:"linkId"`
+	} `json:"page"`
+}
+
 var host = "https://apk.nijisan.my.id"
 type RequestDetail struct {
 	Method   string
@@ -239,19 +253,12 @@ func SearchComic(keyword string) (lc []*Chapter, err error){
     return
 }
 
-func SearchComicV2(keyword, page string) (lc []*Chapter, err error){
+func SearchComicV2(keyword, page string) (r *SearchResult, err error){
     rd := path["searchByPage"]
     url := fmt.Sprintf(host+rd.Endpoint, keyword, "1", page)
     respBody := request(url, rd.Method, nil)
-    r := make(map[string]interface{})
+    r = &SearchResult{}
     err = json.Unmarshal([]byte(respBody), &r)
-    lp := r["page"].([]interface{})
-    for _, page := range lp{ 
-        ta := &Chapter{}
-        pageByte, _ := json.Marshal(page.(map[string]interface{}))
-        json.Unmarshal(pageByte, ta)
-        lc = append(lc, ta)
-    }
     return
 }
 
