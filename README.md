@@ -18,15 +18,17 @@ func main(){
     fmt.Println("=====[ Get Comic ]=====")
     fmt.Println("Comic id to get:", cid)
     c, _ := komikcast.GetComic(cid)
-    fmt.Printf("%+v\nChapter list:\n", c)
-    for _, d := range c.ListChapter{ fmt.Printf("%+v\n", d) }
+    ca := c.(*komikcast.ComicInfo)
+    fmt.Printf("%+v\nChapter list:\n", ca)
+    for _, d := range ca.ListChapter{ fmt.Printf("%+v\n", d) }
     fmt.Println()
 
     fmt.Println("=====[ Read Comic ]=====")
-    tr := c.ListChapter[0].LinkID
+    tr := ca.ListChapter[0].LinkID
     fmt.Println("Chapter id to read:", tr)
     rc, _ := komikcast.ReadComic(tr)
-    for _, img := range rc.Images{ fmt.Println(img) }
+    rca := rc.(*komikcast.ChapterDetail)
+    for _, img := range rca.Images{ fmt.Println(img) }
     fmt.Println()
 
     fmt.Println("=====[ Filter Comic ]=====")
