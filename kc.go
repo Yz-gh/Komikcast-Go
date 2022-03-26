@@ -154,23 +154,13 @@ func request(url, method string, jsonBody []byte) string{
     return string(resp.Body())
 }
 
-func readOrInfo(id string) (c interface{}, err error){
+func ReadOrInfo(id string) (c interface{}, err error){
     rd := path["read_and_info"]
     url := fmt.Sprintf(host+rd.Endpoint, id)
     respBody := request(url, rd.Method, nil)
-    if strings.Contains(id, "chapter"){ c = &ChapterDetail{} } else { c = &ComicInfo{} }
+    if strings.Contains(respBody, "prev"){ c = &ChapterDetail{} } else { c = &ComicInfo{} }
     err = json.Unmarshal([]byte(respBody), c)
     return
-}
-
-func ReadComic(id string) (*ChapterDetail, error){
-    r, err := readOrInfo(id)
-    return r.(*ChapterDetail), err
-}
-
-func GetComic(id string) (*ComicInfo, error){
-    r, err := readOrInfo(id)
-    return r.(*ComicInfo), err
 }
 
 func GetChapterByPage(id, page, limit string) (c *ChapterByPage, err error){
