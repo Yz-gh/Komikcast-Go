@@ -239,6 +239,22 @@ func SearchComic(keyword string) (lc []*Chapter, err error){
     return
 }
 
+func SearchComicV2(keyword, page string) (lc []*Chapter, err error){
+    rd := path["searchByPage"]
+    url := fmt.Sprintf(host+rd.Endpoint, keyword, "1", page)
+    respBody := request(url, rd.Method, nil)
+    r := make(map[string]interface{})
+    err = json.Unmarshal([]byte(respBody), &r)
+    lp := r["page"].([]interface{})
+    for _, page := range lp{ 
+        ta := &Chapter{}
+        pageByte, _ := json.Marshal(page.(map[string]interface{}))
+        json.Unmarshal(pageByte, ta)
+        lc = append(lc, ta)
+    }
+    return
+}
+
 /* Filter Comic Args Exmp
   sort = title, titlereverse, latest, popular
   status = Ongoing, Completed, ""(blank) if want all
