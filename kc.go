@@ -75,16 +75,7 @@ type ResultFilter struct {
 
 type SearchResult struct {
 	Keyword string `json:"keyword"`
-	Page    []struct {
-		Title       string `json:"title"`
-		Chapter     string `json:"chapter"`
-		Rating      string `json:"rating"`
-		Image       string `json:"image"`
-		Image2      string `json:"image2"`
-		Type        string `json:"type"`
-		IsCompleted string `json:"isCompleted"`
-		LinkID      string `json:"linkId"`
-	} `json:"page"`
+	Page    []*Chapter `json:"page"`
 }
 
 var host = "https://apk.nijisan.my.id"
